@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Success Message -->
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading"><i class="fas fa-check-circle"></i> Order Confirmed!</h4>
+                <p>Thank you for your order. Your order has been placed successfully!</p>
+            </div>
+            
+            <!-- Order Details Card -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Order #{{ order.order_number }}</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Order Date:</strong><br>
+                            {{ order.created_at|date:"F j, Y" }}
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Status:</strong><br>
+                            <span class="badge bg-info">{{ order.get_status_display }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Payment Status:</strong><br>
+                            <span class="badge bg-success">{{ order.get_payment_status_display }}</span>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Total Amount:</strong><br>
+                            <h5>${{ order.total|floatformat:2 }}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Order Items -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Order Items</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in order.items.all %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'products:product_detail' item.product.slug %}">
+                                            {{ item.product.name }}
+                                        </a>
+                                    </td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td>${{ item.price|floatformat:2 }}</td>
+                                    <td><strong>${{ item.get_total|floatformat:2 }}</strong></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Pricing Summary -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Shipping Address</h6>
+                            {{ order.shipping_address|linebreaks }}
+                        </div>
+                        <div class="col-md-6">
+                            <dl class="row">
+                                <dt class="col-6">Subtotal:</dt>
+                                <dd class="col-6">${{ order.subtotal|floatformat:2 }}</dd>
+                                
+                                <dt class="col-6">Tax:</dt>
+                                <dd class="col-6">${{ order.tax|floatformat:2 }}</dd>
+                                
+                                <dt class="col-6">Shipping:</dt>
+                                <dd class="col-6">${{ order.shipping|floatformat:2 }}</dd>
+                                
+                                <dt class="col-6"><h5>Total:</h5></dt>
+                                <dd class="col-6"><h5>${{ order.total|floatformat:2 }}</h5></dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{% url 'orders:order_list' %}" class="btn btn-outline-primary">
+                    <i class="fas fa-list"></i> View Order History
+                </a>
+                <a href="{% url 'products:product_list' %}" class="btn btn-primary">
+                    <i class="fas fa-shopping-bag"></i> Continue Shopping
+                </a>
+            </div>
+            
+            <!-- Notification Message -->
+            <div class="alert alert-info mt-4" role="alert">
+                <strong>What's next?</strong> A confirmation email has been sent to {{ user.email }}. You can track your order on the <a href="{% url 'orders:order_list' %}">Order History</a> page.
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

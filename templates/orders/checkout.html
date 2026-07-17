@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4">Checkout</h1>
+    
+    {% if not cart or cart.items.count == 0 %}
+        <div class="alert alert-info">
+            Your cart is empty. <a href="{% url 'products:product_list' %}">Continue shopping</a>
+        </div>
+    {% else %}
+        <div class="row">
+            <!-- Checkout Form -->
+            <div class="col-md-8">
+                <form method="post" class="card">
+                    {% csrf_token %}
+                    
+                    <!-- Shipping Address -->
+                    <div class="card-header">
+                        <h5 class="mb-0">Shipping Address</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if addresses %}
+                            <div class="mb-3">
+                                <label class="form-label">Select Shipping Address</label>
+                                <div id="address-list">
+                                    {% for address in addresses %}
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="radio" name="shipping_address" 
+                                                   id="address{{ address.id }}" value="{{ address.id }}" 
+                                                   {% if address.is_default %}checked{% endif %}>
+                                            <label class="form-check-label" for="address{{ address.id }}">
+                                                <strong>{{ address.full_name }}</strong><br>
+                                                {{ address.street }}<br>
+                                                {{ address.city }}, {{ address.state }} {{ address.postal_code }}<br>
+                                                {{ address.country }} • {{ address.phone }}
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% else %}
+                            <p class="text-muted">No addresses saved. <a href="{% url 'users:address_create' %}">Add a new address</a></p>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Payment Method -->
+                    <div class="card-header mt-4">
+                        <h5 class="mb-0">Payment Method</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="radio" name="payment_method" 
+                                   id="payment_credit" value="credit_card" checked>
+                            <label class="form-check-label" for="payment_credit">
+                                Credit Card (Visa, Mastercard, Amex)
+                            </label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="radio" name="payment_method" 
+                                   id="payment_debit" value="debit_card">
+                            <label class="form-check-label" for="payment_debit">
+                                Debit Card
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="payment_method" 
+                                   id="payment_wallet" value="wallet">
+                            <label class="form-check-label" for="payment_wallet">
+                                Digital Wallet
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary btn-lg w-100">
+                            <i class="fas fa-lock"></i> Complete Order
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Order Summary -->
+            <div class="col-md-4">
+                <div class="card sticky-top">
+                    <div class="card-header">
+                        <h5 class="mb-0">Order Summary</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <h6 class="mb-2">Items ({{ cart.get_total_items }})</h6>
+                            {% for item in cart.items.all %}
+                                <div class="d-flex justify-content-between mb-2 small">
+                                    <span>{{ item.product.name }} × {{ item.quantity }}</span>
+                                    <span>${{ item.get_item_total }}</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="mb-2 d-flex justify-content-between">
+                            <span>Subtotal:</span>
+                            <strong>${{ cart.get_subtotal|floatformat:2 }}</strong>
+                        </div>
+                        <div class="mb-2 d-flex justify-content-between">
+                            <span>Tax (8%):</span>
+                            <strong>${{ tax_amount|floatformat:2 }}</strong>
+                        </div>
+                        <div class="mb-3 d-flex justify-content-between">
+                            <span>Shipping:</span>
+                            <strong>${{ shipping_cost|floatformat:2 }}</strong>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="d-flex justify-content-between h5 mb-0">
+                            <span>Total:</span>
+                            <strong>${{ cart.get_total_price|add:tax_amount|add:shipping_cost|floatformat:2 }}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
