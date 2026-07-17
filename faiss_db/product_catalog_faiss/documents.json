@@ -1,0 +1,155 @@
+[
+  {
+    "product_id": 1,
+    "slug": "wireless-headphones-1",
+    "title": "Wireless Headphones",
+    "content": "Product name: Wireless Headphones\nDescription: High-quality Wireless Headphones\nCategory: Electronics\nPrice: ₹79.99\nStock availability: out of stock",
+    "metadata": {
+      "product_id": 1,
+      "slug": "wireless-headphones-1",
+      "name": "Wireless Headphones",
+      "category": "Electronics",
+      "price": "79.99",
+      "stock": 0,
+      "is_active": true,
+      "is_featured": true,
+      "source": "django_orm"
+    }
+  },
+  {
+    "product_id": 2,
+    "slug": "wireless-headphones",
+    "title": "Wireless Headphones",
+    "content": "Product name: Wireless Headphones\nDescription: High-quality Wireless Headphones\nCategory: Electronics\nPrice: ₹79.99\nStock availability: in stock",
+    "metadata": {
+      "product_id": 2,
+      "slug": "wireless-headphones",
+      "name": "Wireless Headphones",
+      "category": "Electronics",
+      "price": "79.99",
+      "stock": 100,
+      "is_active": true,
+      "is_featured": true,
+      "source": "django_orm"
+    }
+  },
+  {
+    "product_id": 3,
+    "slug": "smart-watch",
+    "title": "Smart Watch",
+    "content": "Product name: Smart Watch\nDescription: High-quality Smart Watch\nCategory: Electronics\nPrice: ₹199.99\nStock availability: in stock",
+    "metadata": {
+      "product_id": 3,
+      "slug": "smart-watch",
+      "name": "Smart Watch",
+      "category": "Electronics",
+      "price": "199.99",
+      "stock": 100,
+      "is_active": true,
+      "is_featured": true,
+      "source": "django_orm"
+    }
+  },
+  {
+    "product_id": 4,
+    "slug": "laptop-stand",
+    "title": "Laptop Stand",
+    "content": "Product name: Laptop Stand\nDescription: High-quality Laptop Stand\nCategory: Electronics\nPrice: ₹49.99\nStock availability: in stock",
+    "metadata": {
+      "product_id": 4,
+      "slug": "laptop-stand",
+      "name": "Laptop Stand",
+      "category": "Electronics",
+      "price": "49.99",
+      "stock": 100,
+      "is_active": true,
+      "is_featured": true,
+      "source": "django_orm"
+    }
+  },
+  {
+    "product_id": 5,
+    "slug": "t-shirt",
+    "title": "T-Shirt",
+    "content": "Product name: T-Shirt\nDescription: High-quality T-Shirt\nCategory: Fashion\nPrice: ₹19.99\nStock availability: in stock",
+    "metadata": {
+      "product_id": 5,
+      "slug": "t-shirt",
+      "name": "T-Shirt",
+      "category": "Fashion",
+      "price": "19.99",
+      "stock": 100,
+      "is_active": true,
+      "is_featured": true,
+      "source": "django_orm"
+    }
+  },
+  {
+    "product_id": 6,
+    "slug": "jeans",
+    "title": "Jeans",
+    "content": "Product name: Jeans\nDescription: High-quality Jeans\nCategory: Fashion\nPrice: ₹59.99\nStock availability: in stock",
+    "metadata": {
+      "product_id": 6,
+      "slug": "jeans",
+      "name": "Jeans",
+      "category": "Fashion",
+      "price": "59.99",
+      "stock": 100,
+      "is_active": true,
+      "is_featured": true,
+      "source": "django_orm"
+    }
+  },
+  {
+    "product_id": 7,
+    "slug": "sneakers",
+    "title": "Sneakers",
+    "content": "Product name: Sneakers\nDescription: High-quality Sneakers\nCategory: Fashion\nPrice: ₹89.99\nStock availability: in stock",
+    "metadata": {
+      "product_id": 7,
+      "slug": "sneakers",
+      "name": "Sneakers",
+      "category": "Fashion",
+      "price": "89.99",
+      "stock": 100,
+      "is_active": true,
+      "is_featured": true,
+      "source": "django_orm"
+    }
+  },
+  {
+    "product_id": 8,
+    "slug": "desk-lamp",
+    "title": "Desk Lamp",
+    "content": "Product name: Desk Lamp\nDescription: High-quality Desk Lamp\nCategory: Home & Garden\nPrice: ₹39.99\nStock availability: in stock",
+    "metadata": {
+      "product_id": 8,
+      "slug": "desk-lamp",
+      "name": "Desk Lamp",
+      "category": "Home & Garden",
+      "price": "39.99",
+      "stock": 100,
+      "is_active": true,
+      "is_featured": true,
+      "source": "django_orm"
+    }
+  },
+  {
+    "product_id": 9,
+    "slug": "plant-pot",
+    "title": "Plant Pot",
+    "content": "Product name: Plant Pot\nDescription: High-quality Plant Pot\nCategory: Home & Garden\nPrice: ₹24.99\nStock availability: in stock",
+    "metadata": {
+      "product_id": 9,
+      "slug": "plant-pot",
+      "name": "Plant Pot",
+      "category": "Home & Garden",
+      "price": "24.99",
+      "stock": 100,
+      "is_active": true,
+      "is_featured": true,
+      "source": "django_orm"
+    }
+  }
+]

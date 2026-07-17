@@ -16,7 +16,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-me-in-producti
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=Csv())
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,testserver', cast=Csv())
 
 # Application definition
 INSTALLED_APPS = [
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'cart.apps.CartConfig',
     'orders.apps.OrdersConfig',
     'api.apps.ApiConfig',
+    'rag.apps.RagConfig',
 ]
 
 MIDDLEWARE = [
@@ -191,6 +192,13 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', '')
 
 # Payment Configuration
 PAYMENT_DEBUG = config('PAYMENT_DEBUG', True, cast=bool)
+
+# RAG Chatbot Settings
+GEMINI_API_KEY = config('GEMINI_API_KEY', default='')
+CHAT_MODEL = config('CHAT_MODEL', default='gemini-2.5-flash')
+EMBEDDING_MODEL = config('EMBEDDING_MODEL', default='gemini-embedding-001')
+FAISS_INDEX_PATH = config('FAISS_INDEX_PATH', default='')
+
 
 # Security Settings for Production
 if not DEBUG:

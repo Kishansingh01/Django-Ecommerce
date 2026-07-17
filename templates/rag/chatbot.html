@@ -1,0 +1,619 @@
+{% extends 'base.html' %}
+
+{% block title %}Product Chatbot{% endblock %}
+
+{% block extra_css %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    body {
+        background: #09090b !important;
+        color: #fafafa !important;
+        min-height: 100vh;
+        letter-spacing: -0.01em;
+    }
+
+    .main-rag-page {
+        font-family: 'Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        padding-top: 2rem;
+        padding-bottom: 4rem;
+    }
+
+    /* Modern SaaS Badge */
+    .rag-badge {
+        background: rgba(63, 63, 70, 0.4) !important;
+        color: #d4d4d8 !important;
+        border: 1px solid #27272a !important;
+        padding: 0.35rem 0.85rem !important;
+        font-size: 0.72rem !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    /* Typography */
+    .rag-gradient-text {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 2.2rem !important;
+        font-weight: 800 !important;
+        letter-spacing: -0.03em !important;
+        background: linear-gradient(to bottom right, #ffffff 30%, #a1a1aa 100%) !important;
+        -webkit-background-clip: text !important;
+        background-clip: text !important;
+        color: transparent !important;
+        line-height: 1.15 !important;
+        margin-top: 0.5rem;
+    }
+
+    /* Left Sidebar Panel (Linear-style Card) */
+    .rag-hero {
+        background: #09090b !important;
+        border: 1px solid #27272a !important;
+        border-radius: 12px !important;
+        padding: 2.2rem !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 10px 25px rgba(0, 0, 0, 0.4) !important;
+        display: flex;
+        flex-direction: column;
+        gap: 1.75rem;
+    }
+
+    .rag-hero .lead {
+        color: #a1a1aa !important;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 0 !important;
+    }
+
+    /* Sub-panels (Copy Block) */
+    .rag-copy-block {
+        background: #141416 !important;
+        border: 1px solid #27272a !important;
+        border-radius: 10px !important;
+        padding: 1.2rem !important;
+    }
+
+    .rag-copy-block h2 {
+        color: #71717a !important;
+        font-size: 0.72rem !important;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 0.8rem;
+    }
+
+    /* Metric Layouts */
+    .rag-metric-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+
+    .rag-metric-card {
+        background: #141416 !important;
+        border: 1px solid #27272a !important;
+        border-radius: 8px !important;
+        padding: 0.85rem 1rem !important;
+        transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .rag-metric-card:hover {
+        border-color: #3f3f46 !important;
+        transform: translateY(-1px);
+    }
+
+    .rag-metric-value {
+        color: #f4f4f5 !important;
+        font-size: 1.1rem !important;
+        font-weight: 600 !important;
+        display: block;
+        margin-bottom: 0.15rem;
+    }
+
+    .rag-metric-label {
+        color: #71717a !important;
+        font-size: 0.72rem !important;
+        display: block;
+        line-height: 1.3;
+    }
+
+    /* Feature List */
+    .rag-feature-list {
+        list-style: none !important;
+        padding-left: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    .rag-feature-list li {
+        position: relative;
+        padding-left: 1.25rem;
+        margin-bottom: 0.65rem;
+        color: #a1a1aa !important;
+        font-size: 0.85rem;
+        line-height: 1.5;
+    }
+
+    .rag-feature-list li::before {
+        content: "•";
+        position: absolute;
+        left: 0.25rem;
+        color: #52525b;
+        font-size: 1rem;
+    }
+
+    /* Action Chip Tags */
+    .rag-sample-chip {
+        border-radius: 6px !important;
+        border: 1px solid #27272a !important;
+        background: #18181b !important;
+        color: #a1a1aa !important;
+        font-size: 0.8rem !important;
+        padding: 0.4rem 0.8rem !important;
+        font-weight: 500 !important;
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        box-shadow: none !important;
+        text-align: left;
+    }
+
+    .rag-sample-chip:hover {
+        background: #27272a !important;
+        border-color: #3f3f46 !important;
+        color: #ffffff !important;
+        transform: translateY(-1px);
+    }
+
+    /* Right Main Chat Card */
+    .rag-chat-card {
+        background: #09090b !important;
+        border: 1px solid #27272a !important;
+        border-radius: 12px !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 10px 25px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    .rag-chat-header {
+        background: #09090b !important;
+        border-bottom: 1px solid #27272a !important;
+        padding: 1.5rem 2rem !important;
+    }
+
+    .rag-chat-header h2 {
+        color: #ffffff !important;
+        font-weight: 600;
+        font-size: 1.15rem !important;
+        letter-spacing: -0.01em;
+    }
+
+    .rag-chat-header small {
+        color: #71717a !important;
+    }
+
+    .rag-chat-header .badge {
+        font-size: 0.7rem;
+        font-weight: 600;
+        padding: 0.25rem 0.5rem;
+        background-color: rgba(34, 197, 94, 0.1) !important;
+        color: #4ade80 !important;
+        border: 1px solid rgba(34, 197, 94, 0.2);
+        border-radius: 4px;
+    }
+
+    /* Message Display Area */
+    .rag-chat-window {
+        background: #09090b !important;
+        border: 1px solid #27272a !important;
+        border-radius: 8px !important;
+        min-height: 340px !important;
+        max-height: 480px !important;
+        padding: 1.5rem !important;
+        scrollbar-width: thin;
+        scrollbar-color: #27272a transparent;
+    }
+
+    /* Conversational Message Bubbles */
+    .rag-message {
+        border-radius: 8px !important;
+        padding: 0.9rem 1.1rem !important;
+        margin-bottom: 0.9rem !important;
+        max-width: 85% !important;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        animation: bubbleFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    @keyframes bubbleFadeIn {
+        from { opacity: 0; transform: translateY(6px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .rag-message-user {
+        background: #18181b !important;
+        color: #f4f4f5 !important;
+        border: 1px solid #3f3f46 !important;
+        margin-left: auto !important;
+    }
+
+    .rag-message-user strong {
+        display: block;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.25rem;
+        color: #a1a1aa;
+    }
+
+    .rag-message-bot {
+        background: #141416 !important;
+        color: #e4e4e7 !important;
+        border: 1px solid #27272a !important;
+        margin-right: auto !important;
+        border-left: 2px solid #6366f1 !important;
+    }
+
+    .rag-message-meta {
+        font-size: 0.7rem !important;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.25rem;
+        color: #6366f1 !important;
+        font-weight: 700 !important;
+    }
+
+    /* Input Box Styles */
+    .rag-chat-form label {
+        color: #a1a1aa !important;
+        font-size: 0.8rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+
+    .rag-input-wrap {
+        background: #141416 !important;
+        border: 1px solid #27272a !important;
+        border-radius: 8px !important;
+        padding: 0.75rem 1rem !important;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .rag-input-wrap:focus-within {
+        border-color: #6366f1 !important;
+        box-shadow: 0 0 0 1px #6366f1 !important;
+    }
+
+    .rag-query-input {
+        color: #f4f4f5 !important;
+        background: transparent !important;
+        border: none !important;
+        font-size: 0.92rem !important;
+        resize: none !important;
+        padding: 0.2rem 0 !important;
+    }
+
+    .rag-query-input::placeholder {
+        color: #52525b !important;
+    }
+
+    /* SaaS Buttons */
+    .btn-primary {
+        background: #ffffff !important;
+        color: #09090b !important;
+        border: 1px solid #ffffff !important;
+        font-weight: 600 !important;
+        font-size: 0.88rem !important;
+        padding: 0.5rem 1.5rem !important;
+        border-radius: 6px !important;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+        transition: background 0.2s ease, border-color 0.2s ease, transform 0.1s ease !important;
+    }
+
+    .btn-primary:hover {
+        background: #e4e4e7 !important;
+        border-color: #e4e4e7 !important;
+        transform: translateY(-0.5px);
+    }
+
+    .btn-primary:active {
+        transform: translateY(0.5px);
+    }
+
+    .btn-outline-secondary {
+        border: 1px solid #27272a !important;
+        background: #09090b !important;
+        color: #a1a1aa !important;
+        font-weight: 500 !important;
+        font-size: 0.88rem !important;
+        padding: 0.5rem 1.25rem !important;
+        border-radius: 6px !important;
+        transition: all 0.2s ease !important;
+    }
+
+    .btn-outline-secondary:hover {
+        background: #18181b !important;
+        border-color: #3f3f46 !important;
+        color: #ffffff !important;
+    }
+
+    #ragStatusText {
+        color: #a1a1aa !important;
+        font-size: 0.8rem;
+    }
+
+    /* Output Panel */
+    .rag-section-title {
+        color: #71717a !important;
+        font-size: 0.72rem !important;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+    }
+
+    .rag-answer-hint {
+        color: #52525b !important;
+        font-size: 0.72rem;
+    }
+
+    .rag-answer-panel {
+        background: #141416 !important;
+        border: 1px solid #27272a !important;
+        border-radius: 8px !important;
+        padding: 1.1rem 1.4rem !important;
+        color: #e4e4e7 !important;
+        font-size: 0.92rem;
+        line-height: 1.65;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    /* Tag Pills for Sources */
+    .rag-source-pill {
+        background: #18181b !important;
+        color: #a1a1aa !important;
+        border: 1px solid #27272a !important;
+        font-size: 0.78rem !important;
+        font-weight: 500 !important;
+        padding: 0.35rem 0.75rem !important;
+        border-radius: 4px !important;
+        box-shadow: none !important;
+    }
+
+    /* Scrollbars */
+    .rag-chat-window::-webkit-scrollbar {
+        width: 6px;
+    }
+    .rag-chat-window::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .rag-chat-window::-webkit-scrollbar-thumb {
+        background: #27272a;
+        border-radius: 99px;
+    }
+    .rag-chat-window::-webkit-scrollbar-thumb:hover {
+        background: #3f3f46;
+    }
+
+    /* Responsive grid gaps and adjustments */
+    @media (max-width: 767.98px) {
+        .rag-hero, .rag-chat-card {
+            border-radius: 8px !important;
+            padding: 1.5rem !important;
+        }
+        .rag-metric-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="rag-shell main-rag-page">
+    <div class="rag-shell-glow rag-shell-glow-a"></div>
+    <div class="rag-shell-glow rag-shell-glow-b"></div>
+
+    <div class="row g-4 align-items-stretch">
+        <div class="col-12 col-xl-4">
+            <div class="rag-hero h-100 shadow-sm">
+                <span class="rag-badge">Product Catalog Assistant</span>
+                <h1 class="display-6 fw-bold mt-3 mb-3 rag-gradient-text">Ask product questions with a polished catalog chatbot</h1>
+                <p class="lead mb-4">Get answers only from your own catalog: products, prices, stock, categories, and reviews.</p>
+
+                <div class="rag-metric-grid mb-4">
+                    <div class="rag-metric-card">
+                        <span class="rag-metric-value">SQLite</span>
+                        <span class="rag-metric-label">Persistent catalog index</span>
+                    </div>
+                    <div class="rag-metric-card">
+                        <span class="rag-metric-value">Top 5</span>
+                        <span class="rag-metric-label">Relevant sources returned</span>
+                    </div>
+                </div>
+
+                <div class="rag-copy-block mb-4">
+                    <h2 class="h6 text-uppercase text-muted mb-3">Try one of these</h2>
+                    <div class="d-flex flex-wrap gap-2">
+                        <button type="button" class="btn btn-light rag-sample-chip rag-sample-chip-a" data-rag-sample="Suggest a gaming laptop under ₹80,000">Gaming laptop under ₹80,000</button>
+                        <button type="button" class="btn btn-light rag-sample-chip rag-sample-chip-b" data-rag-sample="Which products are in stock right now?">In-stock products</button>
+                        <button type="button" class="btn btn-light rag-sample-chip rag-sample-chip-c" data-rag-sample="Show me the best rated products in Electronics">Best rated electronics</button>
+                        <button type="button" class="btn btn-light rag-sample-chip rag-sample-chip-d" data-rag-sample="What are the latest reviews for Wireless Headphones?">Latest headphone reviews</button>
+                    </div>
+                </div>
+
+                <div class="rag-copy-block">
+                    <h2 class="h6 text-uppercase text-muted mb-2">How it works</h2>
+                    <ul class="rag-feature-list mb-0">
+                        <li>Reads product data from your SQLite database.</li>
+                        <li>Retrieves the most relevant products before asking Gemini.</li>
+                        <li>Replies only from the catalog and falls back when the answer is missing.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-xl-8">
+            <div class="card rag-chat-card shadow-lg">
+                <div class="card-header rag-chat-header border-0 py-3">
+                    <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap">
+                        <div>
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <h2 class="h5 mb-0">RAG Chatbot</h2>
+                                <span class="badge bg-success-subtle text-success">Live</span>
+                            </div>
+                            <small class="text-muted">Uses your catalog context and Gemini to answer questions.</small>
+                        </div>
+                        <div class="text-muted small">Visible on the site as <strong>Chatbot</strong> in the navbar</div>
+                    </div>
+                </div>
+                <div class="card-body p-4 p-lg-5">
+                    <div id="ragChatMessages" class="rag-chat-window mb-4">
+                        <div class="rag-message rag-message-bot">
+                            <div class="rag-message-meta">Assistant</div>
+                            <div>Ask me something like: “Suggest a gaming laptop under ₹80,000”</div>
+                        </div>
+                    </div>
+
+                    <form id="ragChatForm" class="rag-chat-form">
+                        {% csrf_token %}
+                        <label for="ragQuery" class="form-label fw-semibold mb-2">Your question</label>
+                        <div class="rag-input-wrap mb-3">
+                            <textarea id="ragQuery" class="form-control rag-query-input" rows="4" placeholder="Ask about a product, price, stock, review, or category..."></textarea>
+                        </div>
+                        <div class="d-flex flex-wrap gap-2 align-items-center">
+                            <button type="submit" class="btn btn-primary px-4" id="ragSendButton">
+                                <span class="me-1">Ask</span>
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary" id="ragClearButton">Clear</button>
+                            <span class="text-muted small" id="ragStatusText"></span>
+                        </div>
+                    </form>
+
+                    <div class="mt-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h3 class="h6 text-uppercase text-muted mb-0 rag-section-title">Latest Answer</h3>
+                            <span class="rag-answer-hint">Answers come from your product catalog only</span>
+                        </div>
+                        <div class="rag-answer-panel" id="ragAnswerPanel">
+                            <div class="text-muted">Your response will appear here.</div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <h3 class="h6 text-uppercase text-muted mb-3 rag-section-title">Sources</h3>
+                        <div id="ragSourcesPanel" class="d-flex flex-wrap gap-2">
+                            <span class="text-muted">Sources will appear after you ask a question.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    (function() {
+        const form = document.getElementById('ragChatForm');
+        const queryInput = document.getElementById('ragQuery');
+        const answerPanel = document.getElementById('ragAnswerPanel');
+        const sourcesPanel = document.getElementById('ragSourcesPanel');
+        const statusText = document.getElementById('ragStatusText');
+        const sendButton = document.getElementById('ragSendButton');
+        const clearButton = document.getElementById('ragClearButton');
+        const chatWindow = document.getElementById('ragChatMessages');
+        const sampleButtons = document.querySelectorAll('[data-rag-sample]');
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        function appendMessage(role, text) {
+            const message = document.createElement('div');
+            message.className = `rag-message rag-message-${role}`;
+            message.innerHTML = `<strong>${role === 'user' ? 'You' : 'Assistant'}</strong><div></div>`;
+            message.querySelector('div').textContent = text;
+            chatWindow.appendChild(message);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        function renderSources(sources) {
+            sourcesPanel.innerHTML = '';
+            if (!sources || !sources.length) {
+                sourcesPanel.innerHTML = '<span class="text-muted">No sources returned.</span>';
+                return;
+            }
+
+            sources.forEach(source => {
+                const item = document.createElement('span');
+                item.className = 'badge rounded-pill text-bg-light border rag-source-pill';
+                item.textContent = source.name || `Product #${source.product_id}`;
+                sourcesPanel.appendChild(item);
+            });
+        }
+
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const query = queryInput.value.trim();
+            if (!query) {
+                return;
+            }
+
+            appendMessage('user', query);
+            statusText.textContent = 'Thinking...';
+            sendButton.disabled = true;
+
+            try {
+                const response = await fetch('/api/chat/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({ query })
+                });
+
+                const payload = await response.json();
+                const answer = payload.answer || 'I could not generate a response.';
+                answerPanel.textContent = answer;
+                appendMessage('bot', answer);
+                renderSources(payload.sources || []);
+            } catch (error) {
+                answerPanel.textContent = 'Unable to reach the chatbot right now.';
+                appendMessage('bot', 'Unable to reach the chatbot right now.');
+                renderSources([]);
+                console.error(error);
+            } finally {
+                statusText.textContent = '';
+                sendButton.disabled = false;
+                queryInput.value = '';
+                queryInput.focus();
+            }
+        });
+
+        clearButton.addEventListener('click', function() {
+            chatWindow.innerHTML = '<div class="rag-message rag-message-bot"><strong>Assistant</strong><div>Ask me something like: “Suggest a gaming laptop under ₹80,000”</div></div>';
+            answerPanel.innerHTML = '<div class="text-muted">Your response will appear here.</div>';
+            sourcesPanel.innerHTML = '<span class="text-muted">Sources will appear after you ask a question.</span>';
+            queryInput.value = '';
+            queryInput.focus();
+        });
+
+        sampleButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                queryInput.value = this.dataset.ragSample || '';
+                queryInput.focus();
+            });
+        });
+    })();
+</script>
+{% endblock %}

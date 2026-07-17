@@ -10,6 +10,7 @@ from core.views import HomeView
 urlpatterns = [
     # Home
     path('', HomeView.as_view(), name='home'),
+    path('chatbot/', include('rag.urls')),
     
     # Admin
     path('admin/', admin.site.urls),

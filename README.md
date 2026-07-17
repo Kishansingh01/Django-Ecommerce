@@ -132,6 +132,13 @@ Access the application at:
 - CDN configuration
 - Static files on S3
 
+### Phase 10: RAG Chatbot Integration ✅
+- Semantic search using FAISS vector store
+- Orchestration with LangChain & Google Gemini
+- Real-time DB-to-Vector store synchronization signals
+- Robust offline mock/fallback mode for local testing
+- Detailed guide: [RAG_README.md](file:///k:/Django-Ecommerce/RAG_README.md)
+
 ## 🔌 REST API Endpoints
 
 ```
@@ -271,3 +278,6 @@ For issues and questions, check the documentation or create an issue in the repo
 ---
 
 Built with ❤️ using Django 4.2 LTS
+
+ <!-- .\.venv\Scripts\Activate.ps1
+ python manage.py runserver -->
