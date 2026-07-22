@@ -1,5 +1,7 @@
 # Django E-commerce Application
 
+# python manage.py runserver
+
 A production-ready, full-stack e-commerce platform built with Django 4.2 LTS, Django REST Framework, Bootstrap, and AWS S3.
 
 ## 🏗️ Architecture

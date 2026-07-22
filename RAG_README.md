@@ -1,4 +1,5 @@
 # Product Catalog RAG Chatbot
+#python manage.py runserver
 
 This module implements a production-ready **Retrieval-Augmented Generation (RAG)** chatbot that queries the Django product catalog database, performs semantic similarity searches, and answers user questions using LangChain and Google Gemini.
 
@@ -102,3 +103,6 @@ rag/
 3. **Submit a Query**:
    - Ask: `"Gaming laptop under ₹80,000"` or `"Wireless Headphones"`.
    - The chatbot will automatically return the matching items, their prices, and their stock availability directly from your database.
+
+<!-- # .\.venv\Scripts\Activate.ps1
+# python manage.py runserver -->
